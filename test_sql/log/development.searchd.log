@@ -1,0 +1,86 @@
+[Fri Jan  6 10:41:57.977 2017] [14080] watchdog: main process 14081 forked ok
+[Fri Jan  6 10:41:57.980 2017] [14081] listening on 127.0.0.1:9306
+[Fri Jan  6 10:41:57.980 2017] [14081] bind() failed on 127.0.0.1, retrying...
+[Fri Jan  6 10:42:00.981 2017] [14081] bind() failed on 127.0.0.1, retrying...
+[Fri Jan  6 10:42:03.984 2017] [14081] bind() failed on 127.0.0.1, retrying...
+[Fri Jan  6 10:42:06.985 2017] [14081] bind() failed on 127.0.0.1, retrying...
+[Fri Jan  6 10:42:09.987 2017] [14081] bind() failed on 127.0.0.1, retrying...
+[Fri Jan  6 10:42:12.988 2017] [14081] bind() failed on 127.0.0.1, retrying...
+[Fri Jan  6 10:42:15.991 2017] [14081] bind() failed on 127.0.0.1, retrying...
+[Fri Jan  6 10:42:18.994 2017] [14081] bind() failed on 127.0.0.1, retrying...
+[Fri Jan  6 10:42:21.997 2017] [14081] bind() failed on 127.0.0.1, retrying...
+[Fri Jan  6 10:42:24.999 2017] [14081] bind() failed on 127.0.0.1, retrying...
+[Fri Jan  6 10:42:28.001 2017] [14081] bind() failed on 127.0.0.1, retrying...
+[Fri Jan  6 10:42:31.003 2017] [14081] bind() failed on 127.0.0.1, retrying...
+[Fri Jan  6 10:42:34.006 2017] [14081] FATAL: bind() failed on 127.0.0.1: Address already in use
+[Fri Jan  6 10:42:34.008 2017] [14080] watchdog: main process 14081 exited cleanly (exit code 1), shutting down
+[Fri Jan  6 10:43:17.150 2017] [14161] watchdog: main process 14162 forked ok
+[Fri Jan  6 10:43:17.152 2017] [14162] listening on 127.0.0.1:9306
+[Fri Jan  6 10:43:17.153 2017] [14162] accepting connections
+[Fri Jan  6 13:19:54.827 2017] [14162] caught SIGHUP (seamless=1, in queue=1)
+[Fri Jan  6 13:19:54.930 2017] [14163] rotating index 'document_core': started
+[Fri Jan  6 13:19:55.047 2017] [14163] rotating index 'document_core': success
+[Fri Jan  6 13:19:55.047 2017] [14163] rotating index: all indexes done
+[Fri Jan  6 13:20:22.319 2017] [14162] caught SIGTERM, shutting down
+[Fri Jan  6 13:20:22.461 2017] [14162] shutdown complete
+[Fri Jan  6 13:20:22.467 2017] [14161] watchdog: main process 14162 exited cleanly (exit code 0), shutting down
+[Fri Jan  6 13:20:30.870 2017] [17120] watchdog: main process 17121 forked ok
+[Fri Jan  6 13:20:30.872 2017] [17121] listening on 127.0.0.1:9306
+[Fri Jan  6 13:20:30.876 2017] [17121] binlog: replaying log /var/www/PD/test_sql/tmp/binlog/development/binlog.001
+[Fri Jan  6 13:20:30.876 2017] [17121] binlog: replay stats: 0 rows in 0 commits; 0 updates, 0 reconfigure; 0 indexes
+[Fri Jan  6 13:20:30.876 2017] [17121] binlog: finished replaying /var/www/PD/test_sql/tmp/binlog/development/binlog.001; 0.0 MB in 0.000 sec
+[Fri Jan  6 13:20:30.876 2017] [17121] binlog: finished replaying total 1 in 0.000 sec
+[Fri Jan  6 13:20:30.877 2017] [17121] accepting connections
+------- FATAL: CRASH DUMP -------
+[Fri Jan  6 17:30:05.967 2017] [17121]
+
+--- crashed SphinxQL request dump ---
+
+--- request dump end ---
+Sphinx 2.2.11-id64-release (95ae9a6)
+Handling signal 11
+-------------- backtrace begins here ---------------
+Program compiled with x86_64-linux-gnu-gcc 5.3.1
+Configured with flags:  '--host=x86_64-linux-gnu' '--build=x86_64-linux-gnu' '--prefix=/usr' '--mandir=${prefix}/share/man' '--infodir=${prefix}/share/info' '--localstatedir=/var/lib/sphinxsearch' '--sysconfdir=/etc/sphinxsearch' '--with-mysql' '--with-pgsql' '--enable-id64' '--with-libstemmer' '--with-re2' '--with-unixodbc' '--with-syslog' 'CFLAGS=-Wall -g -O3' 'LDFLAGS=-Wl,-z,defs  -pthread' 'build_alias=x86_64-linux-gnu' 'host_alias=x86_64-linux-gnu'
+Host OS is Linux debbuild 4.4.0-28-generic #47-Ubuntu SMP Fri Jun 24 10:09:13 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
+Stack bottom = 0x7f64a6043ef7, thread stack size = 0x100000
+Trying manual backtrace:
+Something wrong with thread stack, manual backtrace may be incorrect (fp=0x7f64a603bfb0)
+Stack looks OK, attempting backtrace.
+0x416368
+0x44b939
+0x48b5a9
+Trying system backtrace:
+begin of system symbols:
+searchd[0x5a04bd]
+searchd[0x416368]
+/lib/x86_64-linux-gnu/libpthread.so.0(+0x11390)[0x7f64ad722390]
+searchd[0x44b939]
+searchd[0x48b5a9]
+searchd[0x462ab7]
+searchd[0x466578]
+searchd[0x411bbf]
+searchd[0x5a9772]
+/lib/x86_64-linux-gnu/libpthread.so.0(+0x76ba)[0x7f64ad7186ba]
+/lib/x86_64-linux-gnu/libc.so.6(clone+0x6d)[0x7f64abec582d]
+-------------- backtrace ends here ---------------
+Please, create a bug report in our bug tracker (http://sphinxsearch.com/bugs) and attach there:
+a) searchd log, b) searchd binary, c) searchd symbols.
+Look into the chapter 'Reporting bugs' in the documentation
+(/usr/share/doc/sphinx/sphinx.txt or http://sphinxsearch.com/docs/current.html#reporting-bugs)
+--- BT to source lines (depth 11): ---
+--- BT to source lines finished ---
+--- 1 active threads ---
+thd 0, proto sphinxql, state query, command -
+------- CRASH DUMP END -------
+[Fri Jan  6 17:30:06.095 2017] [17120] watchdog: main process 17121 crashed via CRASH_EXIT (exit code 2), will be restarted
+[Fri Jan  6 17:30:06.096 2017] [17120] watchdog: main process 20188 forked ok
+[Fri Jan  6 17:30:06.097 2017] [20188] listening on 127.0.0.1:9306
+[Fri Jan  6 17:30:06.113 2017] [20188] binlog: replaying log /var/www/PD/test_sql/tmp/binlog/development/binlog.001
+[Fri Jan  6 17:30:06.113 2017] [20188] binlog: replay stats: 0 rows in 0 commits; 0 updates, 0 reconfigure; 0 indexes
+[Fri Jan  6 17:30:06.113 2017] [20188] binlog: finished replaying /var/www/PD/test_sql/tmp/binlog/development/binlog.001; 0.0 MB in 0.000 sec
+[Fri Jan  6 17:30:06.113 2017] [20188] binlog: replaying log /var/www/PD/test_sql/tmp/binlog/development/binlog.001
+[Fri Jan  6 17:30:06.113 2017] [20188] binlog: replay stats: 0 rows in 0 commits; 0 updates, 0 reconfigure; 0 indexes
+[Fri Jan  6 17:30:06.113 2017] [20188] binlog: finished replaying /var/www/PD/test_sql/tmp/binlog/development/binlog.001; 0.0 MB in 0.000 sec
+[Fri Jan  6 17:30:06.113 2017] [20188] binlog: finished replaying total 2 in 0.000 sec
+[Fri Jan  6 17:30:06.113 2017] [20188] accepting connections
