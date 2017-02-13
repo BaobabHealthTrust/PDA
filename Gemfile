@@ -54,3 +54,4 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'thinking-sphinx', '~> 3.1.0'
 gem 'will_paginate', '>= 3.1'
+gem 'passenger', '4.0.53'
