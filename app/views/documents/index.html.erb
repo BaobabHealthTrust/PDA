@@ -1,0 +1,31 @@
+<h1>Potential Duplicates</h1>
+<%= form_tag(documents_path, method: :get) do %>
+	 <%= label_tag 'term', 'Potential Duplicate Record' %>
+   <%= text_field_tag :term, params[:term] %>
+	 <br /> <br />
+	 <%= label_tag 'score', 'score' %>
+   <%= number_field_tag :score, params[:score], in: 1...15 %>
+	 <br />
+   <%= submit_tag 'Find Potential Duplicate', name: nil %>
+<% end %>
+<table>
+  <thead>
+    <tr><th></th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <% for document in @documents %>
+        <div class='document'>
+            <strong> <%="#{document.title} #{document.content}"%> </strong>
+        </div>
+				 <a href="/documents/<%="#{document.id}"%>/edit">Edit</a>
+				 <a href="/documents/<%="#{document.id}"%>">Show</a>
+
+      <% end %>
+     </tr>       
+  </tbody>
+</table>
+
+<%= will_paginate @documents rescue "" %>
+
+<%= link_to 'New Document', new_document_path %>
