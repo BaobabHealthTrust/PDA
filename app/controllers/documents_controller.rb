@@ -4,18 +4,28 @@ class DocumentsController < ApplicationController
   # GET /documents
   # GET /documents.json
   def index
-		search_term = build_term(params) 
-    	
-    potential_duplicates = ThinkingSphinx::Search::BatchInquirer.new
-    
-    potential_duplicates.append_query('SELECT * FROM `document_core` WHERE MATCH(\'"' + "#{search_term}" + '"/' + "#{1}" +'\')')
-  
-
-    potential_duplicates = potential_duplicates.results
-    @documents = []
-    potential_duplicates.first.to_a.each{|i| @documents << Document.find(i['sphinx_internal_id'])}
-    return @documents.to_json
-    #@documents = ThinkingSphinx.search params[:term], :wordcount => 10
+	  if request.post?
+        search_term = build_term(params) 
+        score = CONFIG[:score]	
+        potential_duplicates = ThinkingSphinx::Search::BatchInquirer.new
+        potential_duplicates.append_query('SELECT * FROM `document_core` WHERE MATCH(\'"' + "#{search_term}" + '"/' + "#{score}" +'\')')
+        potential_duplicates = potential_duplicates.results
+        @documents = []
+        potential_duplicates.first.to_a.each{|i| @documents << Document.find(i['sphinx_internal_id'])}
+        return @documents.to_json
+   else
+      
+    if params[:term].blank?
+			@documents = Document.searchk(params[:term], params[:page])
+		else
+			potential_duplicates = ThinkingSphinx::Search::BatchInquirer.new
+			potential_duplicates.append_query('SELECT * FROM `document_core` WHERE MATCH(\'"' + "#{params[:term]}" + '"/' + "#{params[:score]}" +'\')')
+			potential_duplicates = potential_duplicates.results
+			@documents = []
+			potential_duplicates.first.to_a.each{|i| @documents << Document.find(i['sphinx_internal_id'])}
+		end
+       
+   end  
 		
   end
 
