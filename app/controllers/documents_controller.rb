@@ -5,10 +5,10 @@ class DocumentsController < ApplicationController
   # GET /documents.json
   def index
 	  if request.post?
-        search_term = build_term(params) 
-        score = CONFIG[:score]	
+        term = params[:content]
+        score = CONFIG["score"]	
         potential_duplicates = ThinkingSphinx::Search::BatchInquirer.new
-        potential_duplicates.append_query('SELECT * FROM `document_core` WHERE MATCH(\'"' + "#{search_term}" + '"/' + "#{score}" +'\')')
+        potential_duplicates.append_query('SELECT * FROM `document_core` WHERE MATCH(\'"' + "#{term}" + '"/' + "#{score}" +'\')')
         potential_duplicates = potential_duplicates.results
         @documents = []
         potential_duplicates.first.to_a.each{|i| @documents << Document.find(i['sphinx_internal_id'])}
@@ -93,13 +93,4 @@ class DocumentsController < ApplicationController
       params.require(:document).permit(:id, :group_id, :date_added, :group_id2, :title, :content, :couchdb_id)
     end
 
-    def build_term(params)
-      term = ""
-      terms = params[:_json].first
-      terms.each do |key,value|
-        term += value + " "
-      end
-
-      return term.squish 
-    end
 end
