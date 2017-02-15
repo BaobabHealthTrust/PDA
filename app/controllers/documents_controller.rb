@@ -6,7 +6,7 @@ class DocumentsController < ApplicationController
   def index
 	  if request.post?
         term = params[:content]
-        score = CONFIG["score"]	
+        score = params[:score]
         potential_duplicates = ThinkingSphinx::Search::BatchInquirer.new
         potential_duplicates.append_query('SELECT * FROM `document_core` WHERE MATCH(\'"' + "#{term}" + '"/' + "#{score}" +'\')')
         potential_duplicates = potential_duplicates.results
