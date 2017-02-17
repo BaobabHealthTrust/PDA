@@ -257,13 +257,13 @@ time = Time.now.strftime "%Y-%m-%d %H:%M:%S"
 
 ["id, group_id, group_id2, date_created, title, document"]
 
-File.open("test_data.csv", 'w') do |file|
+File.open("test_data_1.csv", 'w') do |file|
 	data.each_with_index do |d, i|
 		tmp = d.split(",")
 		tmp_s = i.to_s + "," + tmp[12].to_s + ",0,"+ Time.now.to_date.to_s + "," + tmp[0] + " " + tmp[1] + "," + tmp[2..11].join(" ")  
 		file.puts tmp_s
 		
-p = Document.create(id: i, group_id: tmp[12], group_id2: 0, date_added:  Time.now, title: tmp[0] + " " + tmp[1],content: "#{tmp[2]} #{Time.now.to_date}" +  tmp[4..11].join(" "))
+#p = Document.create(id: i, group_id: tmp[12], group_id2: 0, date_added:  Time.now, title: tmp[0] + " " + tmp[1],content: "#{tmp[2]} #{Time.now.to_date}" +  tmp[4..11].join(" "))
 puts p.inspect
 #file.puts "Document.create(id: " + i.to_s + ", group_id: " + tmp[12].to_s + ", group_id2: 0, date_added:  Time.now, title: \"" + tmp[0] + " " + tmp[1] + "\", content: \"" +  tmp[2..11].join(" ") + "\")"
 

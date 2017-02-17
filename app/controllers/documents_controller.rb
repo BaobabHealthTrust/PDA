@@ -5,25 +5,25 @@ class DocumentsController < ApplicationController
   # GET /documents.json
   def index
 	  if request.post?
-        term = params[:content]
-        score = params[:score]
+      term = params[:content]
+      score = params[:score]
+      potential_duplicates = ThinkingSphinx::Search::BatchInquirer.new
+      potential_duplicates.append_query('SELECT * FROM `document_core` WHERE MATCH(\'"' + "#{term}" + '"/' + "#{score}" +'\')')
+      potential_duplicates = potential_duplicates.results
+      @documents = []
+      potential_duplicates.first.to_a.each{|i| @documents << Document.find(i['sphinx_internal_id'])}
+      return @documents.to_json
+   else
+      
+      if params[:term].blank?
+        @documents = Document.searchk(params[:term], params[:page])
+      else
         potential_duplicates = ThinkingSphinx::Search::BatchInquirer.new
-        potential_duplicates.append_query('SELECT * FROM `document_core` WHERE MATCH(\'"' + "#{term}" + '"/' + "#{score}" +'\')')
+        potential_duplicates.append_query('SELECT * FROM `document_core` WHERE MATCH(\'"' + "#{params[:term]}" + '"/' + "#{params[:score]}" +'\')')
         potential_duplicates = potential_duplicates.results
         @documents = []
         potential_duplicates.first.to_a.each{|i| @documents << Document.find(i['sphinx_internal_id'])}
-        return @documents.to_json
-   else
-      
-    if params[:term].blank?
-			@documents = Document.searchk(params[:term], params[:page])
-		else
-			potential_duplicates = ThinkingSphinx::Search::BatchInquirer.new
-			potential_duplicates.append_query('SELECT * FROM `document_core` WHERE MATCH(\'"' + "#{params[:term]}" + '"/' + "#{params[:score]}" +'\')')
-			potential_duplicates = potential_duplicates.results
-			@documents = []
-			potential_duplicates.first.to_a.each{|i| @documents << Document.find(i['sphinx_internal_id'])}
-		end
+      end
        
    end  
 		
@@ -46,14 +46,16 @@ class DocumentsController < ApplicationController
   # POST /documents
   # POST /documents.json
   def create
+    unless document_exists?(document_params[:couchdb_id])
     @document = Document.new(document_params)
-    respond_to do |format|
-      if @document.save
-        format.html { redirect_to @document, notice: 'Document was successfully created.' }
-        format.json { render :show, status: :created, location: @document }
-      else
-        format.html { render :new }
-        format.json { render json: @document.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @document.save
+          format.html { redirect_to @document, notice: 'Document was successfully created.' }
+          format.json { render :show, status: :created, location: @document }
+        else
+          format.html { render :new }
+          format.json { render json: @document.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -91,6 +93,15 @@ class DocumentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def document_params
       params.require(:document).permit(:id, :group_id, :date_added, :group_id2, :title, :content, :couchdb_id)
+    end
+
+    def document_exists?(couchdb_id)
+       found = false
+       doc = Document.find_by_couchdb_id(couchdb_id)
+       if doc.present?
+         found = true
+       end
+       return found
     end
 
 end
