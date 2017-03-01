@@ -16,11 +16,13 @@
     <tr>
       <% for document in @documents %>
         <div class='document'>
-            <strong> <%="#{document.first.title} #{document.first.content}"%> weight: <%="#{document.second}"%>  </strong>
+            <strong> <%="#{document.first.title rescue document.title} 
+                         #{document.first.content rescue document.content}"%> 
+                         Weight: <%="#{document.second rescue "N/A" }"%>  </strong>
         </div>
-				 <a href="/documents/<%="#{document.first.id}"%>/edit">Edit</a>
-				 <a href="/documents/<%="#{document.first.id}"%>">Show</a>
-
+				 <a href="/documents/<%="#{document.first.id rescue document.id}"%>/edit">Edit</a>
+				 <a href="/documents/<%="#{document.first.id rescue document.id}"%>">Show</a>
+      
       <% end %>
      </tr>       
   </tbody>

@@ -22,7 +22,6 @@ class DocumentsController < ApplicationController
         potential_duplicates.append_query('SELECT *, WEIGHT() as weight FROM `document_core` WHERE MATCH(\'"' + "#{params[:term]}" + '"/' + "#{params[:score]}" +'\')')
         potential_duplicates = potential_duplicates.results
         @documents = []
-        raise potential_duplicates.first.to_a.inspect
         potential_duplicates.first.to_a.each{|i| @documents << [Document.find(i['sphinx_internal_id']), i['weight']]}
       end
        
