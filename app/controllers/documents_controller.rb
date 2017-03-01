@@ -19,10 +19,11 @@ class DocumentsController < ApplicationController
         @documents = Document.searchk(params[:term], params[:page])
       else
         potential_duplicates = ThinkingSphinx::Search::BatchInquirer.new
-        potential_duplicates.append_query('SELECT * FROM `document_core` WHERE MATCH(\'"' + "#{params[:term]}" + '"/' + "#{params[:score]}" +'\')')
+        potential_duplicates.append_query('SELECT *, WEIGHT() as weight FROM `document_core` WHERE MATCH(\'"' + "#{params[:term]}" + '"/' + "#{params[:score]}" +'\')')
         potential_duplicates = potential_duplicates.results
         @documents = []
-        potential_duplicates.first.to_a.each{|i| @documents << Document.find(i['sphinx_internal_id'])}
+        raise potential_duplicates.first.to_a.inspect
+        potential_duplicates.first.to_a.each{|i| @documents << [Document.find(i['sphinx_internal_id']), i['weight']]}
       end
        
    end  
