@@ -1,5 +1,7 @@
 class Document < ApplicationRecord
 
+after_create :new_index
+
 def self.searchk(term, current_page)
 
   if term
@@ -17,5 +19,9 @@ def self.searchk(term, page)
     paginate(page: page, per_page: 1000).order('id DESC') 
   end
 end
+
+def new_index
+    %x[rake ts:index]
+end  
 
 end
